@@ -13,3 +13,15 @@ sudo chmod g+rwx "$HOME/.docker" -R
 sudo chmod 666 /var/run/docker.sock
 
 sudo reboot
+
+
+
+sudo chmod 666 /var/run/docker.sock
+
+sudo newgroup docker
+sudo chmod 666 /var/run/docker.sock
+sudo usermod -aG docker ${USER}
+
+sudo setfacl --modify user:<user name or ID>:rw /var/run/docker.sock
+
+newgrp docker
