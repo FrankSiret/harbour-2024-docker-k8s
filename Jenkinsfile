@@ -5,8 +5,8 @@ pipeline {
         stage('Build and Push') {
             steps {
                 echo 'Building and pushing'
-                sh 'docker build -t ttl.sh/docker-node-frank .'
-                sh 'docker push ttl.sh/docker-node-frank'
+                sh 'docker build -t ttl.sh/docker-k8s-node-frank .'
+                sh 'docker push ttl.sh/docker-k8s-node-frank'
             }
         }
 
@@ -19,10 +19,10 @@ pipeline {
                     
                     script {
                         // Stop and remove containers
-                        sh "ssh vagrant@192.168.105.3 -i ${mykey} \"docker ps -aq | xargs docker stop | xargs docker rm\""
+                        sh "ssh vagrant@192.168.105.3 -i ${mykey} \"docker stop myapp || true && docker rm myapp || true\""
                     }
                     
-                    sh "ssh vagrant@192.168.105.3 -i ${mykey} \"docker run -d -p 5555:5555 --name myapp ttl.sh/docker-node-frank\""
+                    sh "ssh vagrant@192.168.105.3 -i ${mykey} \"docker run -d -p 5555:5555 --name myapp ttl.sh/docker-k8s-node-frank\""
                 }
             }
         }
