@@ -32,7 +32,7 @@ pipeline {
         stage('Deploy to k8s') {
             steps {
                 echo 'Deploying to k8s'
-                withCredentials([sshUserPrivateKey(credentialsId: 'mykey',
+                withCredentials([sshUserPrivateKey(credentialsId: 'mykey2',
                                                    keyFileVariable: 'mykey',
                                                    usernameVariable: 'myuser')]) {
 
