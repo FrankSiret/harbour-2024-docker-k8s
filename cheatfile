@@ -1,0 +1,15 @@
+sudo groupadd docker
+sudo usermod -aG docker vagrant
+newgrp docker
+
+sudo systemctl restart docker
+sudo systemctl enable docker
+sudo systemctl start docker
+
+su -s ${USER}
+touch .docker
+sudo chown "$USER":"$USER" /home/"$USER"/.docker -R
+sudo chmod g+rwx "$HOME/.docker" -R
+sudo chmod 666 /var/run/docker.sock
+
+sudo reboot
