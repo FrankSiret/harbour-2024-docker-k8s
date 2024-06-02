@@ -5,6 +5,7 @@ pipeline {
         stage('Build and Push') {
             steps {
                 echo 'Building and pushing'
+                sh 'docker ps -a'
                 sh 'docker build -t ttl.sh/docker-k8s-node-frank .'
                 sh 'docker push ttl.sh/docker-k8s-node-frank'
             }
