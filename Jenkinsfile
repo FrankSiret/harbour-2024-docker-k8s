@@ -14,7 +14,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying to target'
-                withCredentials([sshUserPrivateKey(credentialsId: 'mykey2',
+                withCredentials([sshUserPrivateKey(credentialsId: 'mykey',
                                                    keyFileVariable: 'mykey',
                                                    usernameVariable: 'myuser')]) {
                     sh "ssh ${myuser}@192.168.105.3 -i ${mykey} \"docker ps -a\""
