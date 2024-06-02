@@ -44,13 +44,13 @@ pipeline {
                     sh "scp -o StrictHostKeychecking=no -i ${mykey} myapp.yml ${myuser}@192.168.105.4:"
                     
                     sh 'echo "Create pod"'
-                    sh "ssh ${myuser}@192.168.105.4 -i ${mykey} \"kubectl run myapp --image=ttl.sh/fvaldes-docker-ruby-hw\""
+                    sh "ssh ${myuser}@192.168.105.4 -i ${mykey} \"kubectl run myapp --image=ttl.sh/docker-k8s-node-frank\""
 
                     sh 'echo "Refresh service"'
                     sh "ssh ${myuser}@192.168.105.4 -i ${mykey} \"kubectl apply -f myapp.yaml\""
 
                     sh 'echo "Create deployments"'
-                    sh "ssh ${myuser}@192.168.105.4 -i ${mykey} \"kubectl create deployment myapp --image=ttl.sh/fvaldes-docker-ruby-hw && kubectl scale --replicas=2 deployment/myapp\""
+                    sh "ssh ${myuser}@192.168.105.4 -i ${mykey} \"kubectl create deployment myapp --image=ttl.sh/docker-k8s-node-frank && kubectl scale --replicas=2 deployment/myapp\""
                 }
             }
 
