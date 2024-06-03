@@ -32,25 +32,25 @@ pipeline {
         stage('Deploy to k8s') {
             steps {
                 echo 'Deploying to k8s'
-                withCredentials([sshUserPrivateKey(credentialsId: 'tkey',
-                                                   keyFileVariable: 'tkey',
+                withCredentials([sshUserPrivateKey(credentialsId: 'kkey',
+                                                   keyFileVariable: 'kkey',
                                                    usernameVariable: 'myuser')]) {
 
                     echo "Delete existing pod and deployment"
-                    sh "ssh ${myuser}@192.168.105.4 -i ${tkey} \"kubectl delete pod myapp --ignore-not-found && kubectl delete deployments myapp --ignore-not-found\""
+                    sh "ssh ${myuser}@192.168.105.4 -i ${kkey} -o StrictHostKeychecking=no \"kubectl delete pod myapp --ignore-not-found && kubectl delete deployments myapp --ignore-not-found\""
 
                     sh 'ls -la'
                     sh 'echo "Copy service yaml file"'
-                    sh "scp -o StrictHostKeychecking=no -i ${tkey} myapp.yml ${myuser}@192.168.105.4:"
+                    sh "scp -o StrictHostKeychecking=no -i ${kkey} myapp.yml ${myuser}@192.168.105.4:"
                     
                     sh 'echo "Create pod"'
-                    sh "ssh ${myuser}@192.168.105.4 -i ${tkey} \"kubectl run myapp --image=ttl.sh/docker-k8s-node-frank\""
+                    sh "ssh ${myuser}@192.168.105.4 -i ${kkey} \"kubectl run myapp --image=ttl.sh/docker-k8s-node-frank\""
 
                     sh 'echo "Refresh service"'
-                    sh "ssh ${myuser}@192.168.105.4 -i ${tkey} \"kubectl apply -f myapp.yaml\""
+                    sh "ssh ${myuser}@192.168.105.4 -i ${kkey} \"kubectl apply -f myapp.yaml\""
 
                     sh 'echo "Create deployments"'
-                    sh "ssh ${myuser}@192.168.105.4 -i ${tkey} \"kubectl create deployment myapp --image=ttl.sh/docker-k8s-node-frank && kubectl scale --replicas=2 deployment/myapp\""
+                    sh "ssh ${myuser}@192.168.105.4 -i ${kkey} \"kubectl create deployment myapp --image=ttl.sh/docker-k8s-node-frank && kubectl scale --replicas=2 deployment/myapp\""
                 }
             }
 
