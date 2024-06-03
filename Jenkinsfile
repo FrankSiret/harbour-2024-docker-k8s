@@ -36,8 +36,8 @@ pipeline {
                                                    keyFileVariable: 'kkey',
                                                    usernameVariable: 'myuser')]) {
 
-                    // echo "Delete existing pod and deployment"
-                    // sh "ssh ${myuser}@192.168.105.4 -i ${kkey} -o StrictHostKeychecking=no \"kubectl delete pod myapp --ignore-not-found && kubectl delete deployments myapp --ignore-not-found\""
+                    echo "Delete existing pod and deployment"
+                    sh "ssh ${myuser}@192.168.105.4 -i ${kkey} -o StrictHostKeychecking=no \"kubectl delete pod myapp --ignore-not-found && kubectl delete deployments myapp --ignore-not-found\""
 
                     sh 'ls -la'
                     sh 'echo "Copy service yaml file"'
