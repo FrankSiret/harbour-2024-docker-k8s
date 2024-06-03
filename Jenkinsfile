@@ -14,17 +14,17 @@ pipeline {
         stage('Deploy to target') {
             steps {
                 echo 'Deploying to target'
-                withCredentials([sshUserPrivateKey(credentialsId: 'mykey',
-                                                   keyFileVariable: 'mykey',
+                withCredentials([sshUserPrivateKey(credentialsId: 'tkey',
+                                                   keyFileVariable: 'tkey',
                                                    usernameVariable: 'myuser')]) {
-                    sh "ssh ${myuser}@192.168.105.3 -i ${mykey} \"docker ps -a\""
+                    sh "ssh ${myuser}@192.168.105.3 -i ${tkey} \"docker ps -a\""
 
                     script {
                         // Stop and remove containers
-                        sh "ssh vagrant@192.168.105.3 -i ${mykey} \"docker stop myapp || true && docker rm myapp || true\""
+                        sh "ssh vagrant@192.168.105.3 -i ${tkey} \"docker stop myapp || true && docker rm myapp || true\""
                     }
                     
-                    sh "ssh vagrant@192.168.105.3 -i ${mykey} \"docker run -d -p 5555:5555 --name myapp ttl.sh/docker-k8s-node-frank\""
+                    sh "ssh vagrant@192.168.105.3 -i ${tkey} \"docker run -d -p 5555:5555 --name myapp ttl.sh/docker-k8s-node-frank\""
                 }
             }
         }
