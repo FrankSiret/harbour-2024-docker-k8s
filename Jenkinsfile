@@ -17,7 +17,7 @@ pipeline {
                 withCredentials([sshUserPrivateKey(credentialsId: 'tkey',
                                                    keyFileVariable: 'tkey',
                                                    usernameVariable: 'myuser')]) {
-                    sh "ssh ${myuser}@192.168.105.3 -i ${tkey} \"docker ps -a\""
+                    sh "ssh ${myuser}@192.168.105.3 -i ${tkey} -o StrictHostKeychecking=no \"docker ps -a\""
 
                     script {
                         // Stop and remove containers
